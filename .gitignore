@@ -17,3 +17,5 @@ RESULTS/
 *.job*
 sge*
 travis_key
+.project
+*.pyc
