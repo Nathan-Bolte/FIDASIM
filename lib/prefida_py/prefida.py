@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#import numpy as np
-#import matplotlib.pyplot as plt
-#import scipy as sp
-#import pandas as pd
+
 import os
 from prefida_py import check_inputs
 from prefida_py import check_grid
@@ -24,31 +21,31 @@ from prefida_py import get_fidasim_dir
 def prefida(inputs, grid, nbi, plasma, fields, fbm, spec=None, npa=None):
     """Brief Description
 
-    ;+#prefida
-    ;+Checks FIDASIM inputs and writes FIDASIM input files
-    ;+***
-    ;+##Input Arguments
-    ;+     **inputs**: Inputs structure
-    ;+
-    ;+     **grid**: Interpolation grid structure
-    ;+
-    ;+     **nbi**: Neutral beam geometry structure
-    ;+
-    ;+     **plasma**: Plasma parameters structure
-    ;+
-    ;+     **fields**: Electromagnetic fields structure
-    ;+
-    ;+     **dist**: Fast-ion distribution structure
-    ;+
-    ;+##Keyword Arguments
-    ;+     **spec**: Optional, Spectral geometry structure
-    ;+
-    ;+     **npa**: Optional, NPA geometry structure
-    ;+
-    ;+##Example Usage
-    ;+```idl
-    ;+IDL> prefida, inputs, grid, nbi, plasma, fields, dist, spec=spec, npa=npa
-    ;+```
+    #prefida
+    Checks FIDASIM inputs and writes FIDASIM input files
+    ***
+    ##Input Arguments
+         **inputs**: Inputs structure
+
+         **grid**: Interpolation grid structure
+
+         **nbi**: Neutral beam geometry structure
+
+         **plasma**: Plasma parameters structure
+
+         **fields**: Electromagnetic fields structure
+
+         **dist**: Fast-ion distribution structure
+
+    ##Keyword Arguments
+         **spec**: Optional, Spectral geometry structure
+
+         **npa**: Optional, NPA geometry structure
+
+    ##Example Usage
+    ```idl
+    IDL> prefida, inputs, grid, nbi, plasma, fields, dist, spec=spec, npa=npa
+    ```
 
     History
     -------
