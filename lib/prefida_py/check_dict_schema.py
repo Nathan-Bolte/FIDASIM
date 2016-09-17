@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from prefida_py import info
-from prefida_py import error
+from lib.prefida_py import info
+from lib.prefida_py import error
+import numpy as np
 
 
-def check_dict_schema(schema, s, err_status, desc=None):
+def check_dict_schema(schema, s, desc=None):
     """
     #check_struct_schema
      Check structure `s` is formatted according to `schema`
@@ -42,38 +43,48 @@ def check_dict_schema(schema, s, err_status, desc=None):
         w = (skeys[i] == schema_keys)
         nw = len(schema_keys[w])
         if (nw == 0):
-            info('Extra variable "'+skeys[i]+'" found in '+desc)
+            info('Extra variable "' + skeys[i] + '" found in ' + desc)
 
     for i in range(len(schema_keys)):
         w = (schema_keys[i] == skeys)
         nw = len(schema_keys[w])
         if nw == 0:
-            error('"'+schema_keys[i]+'" is missing from the '+desc
+            error('"' + schema_keys[i] + '" is missing from the ' + desc)
             err_status = 1
-         else
-            ;; Check dimensions
-            ww = where((size(s.(w),/dim) eq schema.(i).dims) ne 1,nww)
-            if nww ne 0:
-                error,'"'+schema_keys[i]+'" has the wrong dimensions. Expected ('+ $
-                      strjoin(strcompress(string(schema.(i).dims),/remove_all),',')+')'
-                print,'size('+schema_keys[i]+') = ',size(s.(w),/dim)
+        else:
+            # Check dimensions
+            #  ww = where((size(s.(w),/dim) == schema.(i).dims) ne 1,nww)
+            ww = ((s[skeys[w]].ndim == schema[schema_keys[i]]['dims']) is not True)
+            nww = len(schema_keys[ww])
+            if nww != 0:
+#                error('"' + schema_keys[i] + '" has the wrong dimensions. Expected (' + \
+#                      strjoin(strcompress(string(schema.(i).dims),/remove_all),',')+')'
+                error('"{}" has the wrong dimensions. Expected ({})'.format(schema_keys[i], schema[schema_keys[i]]['dims']))
+#                print 'size('+schema_keys[i]+') = ',size(s.(w),/dim)
+                print 'size({}) = {}'.format(schema_keys[i], s[skeys[w]].ndim)
                 err_status = 1
 
-            ;; Check type
-            tname = size(s.(w),/tname)
-            if tname ne schema.(i).type:
-                error,'"'+schema_keys[i]+'" has the wrong type. Expected '+schema.(i).type
-                print,'type('+schema_keys[i]+') = '+tname
+            # Check type
+#            tname = type(s[skeys[w]])  # size(s.(w),/tname)
+#            if tname ne schema.(i).type:
+            if not isinstance(s[skeys[w]], schema[schema_keys[i]]['type']):
+#                error,'"'+schema_keys[i]+'" has the wrong type. Expected '+schema.(i).type
+                error('"{}" has the wrong type. Expected {}'.format(schema_keys[i], schema[schema_keys[i]]['type']))
+#                print 'type('+schema_keys[i]+') = '+tname
+                print 'type({}) = {}'.format(schema_keys[i], type(s[skeys[w]]))
                 err_status = 1
 
-            ;; Check for NaNs or Inf
-            if tname ne 'STRING' and tname ne 'STRUCT'
-                ww = where(finite(s.(w)) == 0,nww)
-             else nww = 0
-            if nww ne 0:
-                error,'NaN or Infinity detected in "'+schema_keys[i]+'"'
+            # Check for NaNs or Inf
+            if ((not isinstance(isinstance(s[skeys[w]], str))) and (not isinstance(isinstance(s[skeys[w]], dict)))):
+#            if tname ne 'STRING' and tname ne 'STRUCT'
+#                ww = where(finite(s.(w)) == 0,nww)
+                ww = (np.isnan(s[skeys[w]]) or np.isinf(s[skeys[w]]))
+                nww = s[skeys[w]][ww].size
+            else:
+                nww = 0
+            if nww != 0:
+#                error('NaN or Infinity detected in "'+schema_keys[i]+'"')
+                error('NaN or Infinity detected in "{}"'.format(schema_keys[i]))
                 err_status = 1
 
-
-
-
+    return err_status

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from prefida_py import colored
+
+from lib.prefida_py import colored
 
 
 def info(string):

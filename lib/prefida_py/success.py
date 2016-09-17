@@ -1,6 +1,10 @@
-from numarray import *
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-def success(str):
+from lib.prefida_py import colored
+
+
+def success(string):
 #+##`success, str`
 #+Print a success message
 #+###Arguments
@@ -10,10 +14,5 @@ def success(str):
 #+```idl
 #+IDL> success, "Yay!!!"
 #+```
-   n_params = 1
-   def _ret():  return str
-   
-   print colored('SUCCESS: ' + str, c='g')
-   
-   return _ret()
 
+    print colored('SUCCESS: ' + string, c='g')

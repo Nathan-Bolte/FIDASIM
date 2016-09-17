@@ -3,19 +3,20 @@
 
 
 import os
-from prefida_py import check_inputs
-from prefida_py import check_grid
-from prefida_py import check_beam
-from prefida_py import check_plasma
-from prefida_py import check_fields
-from prefida_py import check_distribution
-from prefida_py import check_spec
-from prefida_py import check_npa
-from prefida_py import write_namelist
-from prefida_py import write_geometry
-from prefida_py import write_equilibrium
-from prefida_py import write_distribution
-from prefida_py import get_fidasim_dir
+from lib.prefida_py import check_inputs
+from lib.prefida_py import check_grid
+from lib.prefida_py import check_beam
+from lib.prefida_py import check_plasma
+from lib.prefida_py import check_fields
+from lib.prefida_py import check_distribution
+from lib.prefida_py import check_spec
+from lib.prefida_py import check_npa
+from lib.prefida_py import write_namelist
+from lib.prefida_py import write_geometry
+from lib.prefida_py import write_equilibrium
+from lib.prefida_py import write_distribution
+from lib.prefida_py import get_fidasim_dir
+from lib.prefida_py import success
 
 
 def prefida(inputs, grid, nbi, plasma, fields, fbm, spec=None, npa=None):
@@ -100,8 +101,8 @@ def prefida(inputs, grid, nbi, plasma, fields, fbm, spec=None, npa=None):
     print ''
     print ''
     success('FIDASIM pre-processing completed')
-    print  'To run FIDASIM use the following command'
-    print  get_fidasim_dir() + '/fidasim ' + inputs['result_dir'] + '/' + inputs['runid'] + '_inputs.dat'
+    print 'To run FIDASIM use the following command'
+    print get_fidasim_dir() + '/fidasim ' + inputs['result_dir'] + '/' + inputs['runid'] + '_inputs.dat'
     print ''
     print ''
 ###############################################################################

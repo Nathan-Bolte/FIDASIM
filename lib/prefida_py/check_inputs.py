@@ -8,10 +8,10 @@ import numpy as np
 #import IPython.utils.path.expand_path as expand_path
 import IPython.utils.path
 import os
-from prefida_py import info
-from prefida_py import check_dict_schema
-from prefida_py import error
-from prefida_py import success
+from lib.prefida_py import info
+from lib.prefida_py import check_dict_schema
+from lib.prefida_py import error
+from lib.prefida_py import success
 
 
 def check_inputs(inputs):
@@ -39,15 +39,15 @@ def check_inputs(inputs):
     info('Checking simulation settings...')
     err_status = 0
     zero_string = {'dims': 0,
-                   'type': 'STRING'}
+                   'type': str}
     zero_int = {'dims': 0,
-                'type': 'INT'}
+                'type': int}
     zero_long = {'dims': 0,
-                 'type': 'LONG'}
+                 'type': long}
     zero_double = {'dims': 0,
-                   'type': 'DOUBLE'}
+                   'type': np.float64}
     three_double = {'dims': [3],
-                    'type': 'DOUBLE'}
+                    'type': np.float64}
     schema = {'comment': zero_string,
               'shot': zero_long, 'time': zero_double,
               'runid': zero_string, 'device': zero_string,

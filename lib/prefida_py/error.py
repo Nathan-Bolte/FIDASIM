@@ -1,6 +1,10 @@
-from numarray import *
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-def error(str, halt=None):
+from lib.prefida_py import colored
+
+
+def error(string, halt=False):
 #+#error
 #+Print a error message
 #+***
@@ -14,18 +18,7 @@ def error(str, halt=None):
 #+```idl
 #+IDL> error, "=("
 #+```
-   n_params = 1
-   _opt = (halt,)
-   def _ret():
-      _optrv = zip(_opt, [halt])
-      _rv = [str]
-      _rv += [_o[1] for _o in _optrv if _o[0] is not None]
-      return tuple(_rv)
-   
-   if (halt is not None):   
-      message(colored(str, c='r'), level=-1)
-   else:   
-      print colored('ERROR: ' + str, c='r')
-   
-   return _ret()
+    print colored('ERROR: {}'.format(string), c='r')
 
+    if halt:
+        raise Exception(string)
