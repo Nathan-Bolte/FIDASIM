@@ -101,7 +101,7 @@ def check_beam(inp, nbi):
     xyz_src = uvw_to_xyz(inp['alpha'], inp['beta'], inp['gamma'], uvw_src, origin=origin)
     xyz_axis = uvw_to_xyz(inp['alpha'], inp['beta'], inp['gamma'], uvw_axis)
     xyz_pos = uvw_to_xyz(inp['alpha'], inp['beta'], inp['gamma'], uvw_pos, origin=origin)
-    xyz_center = uvw_to_xyz(inp['alpha'], inp['beta'], inp['gamma'], [0.0, 0.0, 0.0], origin=origin)
+    xyz_center = uvw_to_xyz(inp['alpha'], inp['beta'], inp['gamma'], [0., 0., 0.], origin=origin)
 
     dis = np.sqrt(np.sum((xyz_src - xyz_pos) ** 2.))
     BETA = np.float64(np.arcsin((xyz_src[2] - xyz_pos[2]) / dis))

@@ -1,19 +1,19 @@
-from numarray import *
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-def warn(str):
-#+##`warn, str`
-#+Print a warning message
-#+###Arguments
-#+     **str**: message
-#+
-#+###Example Usage
-#+```idl
-#+IDL> warn, "This may be a problem"
-#+```
-   n_params = 1
-   def _ret():  return str
-   
-   print colored('WARNING: ' + str, c='y')
-   
-   return _ret()
+from lib.prefida_py import colored
 
+
+def warn(string):
+    """
+    #+##`warn, string`
+    #+Print a warning message
+    #+###Arguments
+    #+     **string**: message
+    #+
+    #+###Example Usage
+    #+```idl
+    #+IDL> warn, "This may be a problem"
+    #+```
+    """
+    print colored('WARNING: ' + string, c='y')

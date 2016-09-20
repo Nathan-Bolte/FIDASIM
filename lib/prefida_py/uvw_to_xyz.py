@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 import numpy as np
 
 
@@ -25,15 +26,19 @@ def uvw_to_xyz(alpha, beta, gamma, uvw, origin=None):
     ```
     """
     if origin is None:
-        origin=[0.0, 0.0, 0.0]
+        origin = [0., 0., 0.]
 
-    s = uvw.ndim  # size(uvw,/dim)
-    if n_elements(s) ne 2 then s=[s,1]
-    uvw_shifted = transpose(uvw - tile_array(origin,1,s[1]))
+    s = uvw.shape  # size(uvw,/dim)
 
-    R = transpose(tb_zyx(alpha,beta,gamma))
+    if s.size != 2:
+        s = [s, 1]
 
-    xyz = R##uvw_shifted
+#    uvw_shifted = transpose(uvw - tile_array(origin,1,s[1]))
+    uvw_shifted = np.transpose(uvw - np.tile(origin, (1, s[1])))
 
-    return, transpose(xyz)
+    R = np.transpose(tb_zyx(alpha, beta, gamma))
 
+#    xyz = R ## uvw_shifted
+    xyz = np.dot(R, uvw_shifted)
+
+    return np.transpose(xyz)

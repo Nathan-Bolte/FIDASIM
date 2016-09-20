@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import os
 from lib.prefida_py import check_inputs
 from lib.prefida_py import check_grid
@@ -70,7 +69,7 @@ def prefida(inputs, grid, nbi, plasma, fields, fbm, spec=None, npa=None):
     check_beam(inputs, nbi)
 
     # CHECK PLASMA PARAMETERS
-    check_plasma(inputs, grid, plasma)
+    plasma = check_plasma(inputs, grid, plasma)
 
     # CHECK ELECTROMAGNETIC FIELDS
     check_fields(inputs, grid, fields)
