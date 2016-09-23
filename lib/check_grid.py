@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from lib.prefida_py import info
-from lib.prefida_py import error
-from lib.prefida_py import check_dict_schema
-from lib.prefida_py import success
+from lib import info
+from lib import error
+from lib import check_dict_schema
+from lib import success
 
 
 def check_grid(grid):

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from lib.prefida_py import info
-from lib.prefida_py import error
+from lib import info
+from lib import error
 import numpy as np
 
 

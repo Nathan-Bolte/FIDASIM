@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from lib.prefida_py import info
-from lib.prefida_py import get_version
-from lib.prefida_py import get_fidasim_dir
+from lib import info
+from lib import get_version
+from lib import get_fidasim_dir
+from lib import success
+import datetime
 
 
 def write_namelist(filename, inputs):
@@ -21,103 +23,111 @@ def write_namelist(filename, inputs):
     ;+IDL> write_namelist, filename, inputs
     ;+```
     """
-    info('Writing namelist file...')
+    info("Writing namelist file...")
 
-    fidasim_version = get_version(get_fidasim_dir())
+    fidasim_version = ''  # get_version(get_fidasim_dir())
 
-    openw,55,filename
-    printf,55,'!! Created: ', systime()
-    printf,55,'!! FIDASIM version: '+fidasim_version
-    printf,55,'!! Comment: '+inputs.comment
-    printf,55,'&fidasim_inputs'
-    printf,55,''
-    printf,55,'!! Shot Info'
-    printf,55,f='("shot = ", i6 ,"    !! Shot Number")',inputs.shot
-    printf,55,f='("time = ", 1f8.5 ,"    !! Time [s]")',inputs.time
-    printf,55,"runid = '" + inputs.runid + "'    !! runID"
-    printf,55,"result_dir = '" + inputs.result_dir+"'    !! Result Directory"
-    printf,55,''
-    printf,55,'!! Input Files'
-    printf,55,"tables_file = '" + inputs.tables_file+"'    !! Atomic Tables File"
-    printf,55,"equilibrium_file = '" + inputs.equilibrium_file +"'    !! File containing plasma parameters and fields"
-    printf,55,"geometry_file = '" + inputs.geometry_file +"'    !! File containing NBI and diagnostic geometry"
-    printf,55,"distribution_file = '" + inputs.distribution_file +"'    !! File containing fast-ion distribution"
-    printf,55,''
-    printf,55,'!! Simulation Switches'
-    printf,55,f='("calc_bes = ",i2 , "    !! Calculate Beam Emission and Halo Spectra")',inputs.calc_bes
-    printf,55,f='("calc_brems = ",i2 , "    !! Calculate Bremsstrahlung")',inputs.calc_brems
-    printf,55,f='("calc_fida = ",i2 , "    !! Calculate FIDA Spectra")',inputs.calc_fida
-    printf,55,f='("calc_npa = ",i2 , "   !! Calculate NPA")',inputs.calc_npa
-    printf,55,f='("calc_birth = ",i2 , "    !! Calculate Birth Profile")',inputs.calc_birth
-    printf,55,f='("calc_fida_wght = ",i2 , "    !! Calculate FIDA weights")',inputs.calc_fida_wght
-    printf,55,f='("calc_npa_wght = ",i2 , "    !! Calculate NPA weights")',inputs.calc_npa_wght
-    printf,55,f='("dump_dcx = ",i2,"    !! Dump DCX neutrals and spectra")',inputs.dump_dcx
-    printf,55,''
-    printf,55,'!! Debugging Switches'
-    printf,55,f='("no_flr = ",i2,"    !! Turn off Finite Larmor Radius effects")',inputs.no_flr
-    printf,55,f='("load_neutrals = ",i2,"    !! Load neutrals from neutrals file")',inputs.load_neutrals
-    printf,55,"neutrals_file = '" + inputs.neutrals_file +"'    !! File containing the neutral density"
-    printf,55,f='("verbose = ",i2,"    !! Verbose")',inputs.verbose
-    printf,55,''
-    printf,55,'!! Monte Carlo Settings'
-    printf,55,f='("n_fida = ",i9,"    !! Number of FIDA mc particles")',inputs.n_fida
-    printf,55,f='("n_npa = ",i9,"    !! Number of NPA mc particles")',inputs.n_npa
-    printf,55,f='("n_nbi = ",i9,"    !! Number of NBI mc particles")',inputs.n_nbi
-    printf,55,f='("n_halo = ",i9,"    !! Number of HALO mc particles")',inputs.n_halo
-    printf,55,f='("n_dcx = ",i9,"     !! Number of DCX mc particles")',inputs.n_dcx
-    printf,55,f='("n_birth = ",i9,"    !! Number of BIRTH mc particles")',inputs.n_birth
-    printf,55,''
-    printf,55,'!! Neutral Beam Settings'
-    printf,55,f='("ab = ",1f9.5,"     !! Beam Species mass [amu]")',inputs.ab
-    printf,55,f='("pinj = ",1f9.3,"     !! Beam Power [MW]")',inputs.pinj
-    printf,55,f='("einj = ",1f9.3,"     !! Beam Energy [keV]")',inputs.einj
-    printf,55,f='("current_fractions(1) = ",1f9.5," !! Current Fractions (Full component)")',inputs.current_fractions[0]
-    printf,55,f='("current_fractions(2) = ",1f9.5," !! Current Fractions (Half component)")',inputs.current_fractions[1]
-    printf,55,f='("current_fractions(3) = ",1f9.5," !! Current Fractions (Third component)")',inputs.current_fractions[2]
-    printf,55,''
-    printf,55,'!! Plasma Settings'
-    printf,55,f='("ai = ",1f9.5,"     !! Ion Species mass [amu]")',inputs.ai
-    printf,55,f='("impurity_charge = ",i3,"     !! Impurity Charge")',inputs.impurity_charge
-    printf,55,''
-    printf,55,'!! Beam Grid Settings'
-    printf,55,f='("nx = ",i4,"    !! Number of cells in X direction (Into Plasma)")',inputs.nx
-    printf,55,f='("ny = ",i4,"    !! Number of cells in Y direction")',inputs.ny
-    printf,55,f='("nz = ",i4,"    !! Number of cells in Z direction")',inputs.nz
-    printf,55,f='("xmin = ",1f9.3,"     !! Minimum X value [cm]")',inputs.xmin
-    printf,55,f='("xmax = ",1f9.3,"     !! Maximum X value [cm]")',inputs.xmax
-    printf,55,f='("ymin = ",1f9.3,"     !! Minimum Y value [cm]")',inputs.ymin
-    printf,55,f='("ymax = ",1f9.3,"     !! Maximum Y value [cm]")',inputs.ymax
-    printf,55,f='("zmin = ",1f9.3,"     !! Minimum Z value [cm]")',inputs.zmin
-    printf,55,f='("zmax = ",1f9.3,"     !! Maximum Z value [cm]")',inputs.zmax
-    printf,55,'!! Tait-Bryan Angles for z-y`-x`` rotation'
-    printf,55,f='("alpha = ",1f9.5,"     !! Rotation about z-axis [rad]")',inputs.alpha
-    printf,55,f='("beta  = ",1f9.5,"     !! Rotation about y`-axis [rad]")',inputs.beta
-    printf,55,f='("gamma = ",1f9.5,"     !! Rotation about x``-axis [rad]")',inputs.gamma
-    printf,55,'!! Beam Grid origin in machine coordinates (cartesian)'
-    printf,55,f='("origin(1) = ",1f9.3,"     !! U value [cm]")',inputs.origin[0]
-    printf,55,f='("origin(2) = ",1f9.3,"     !! V value [cm]")',inputs.origin[1]
-    printf,55,f='("origin(3) = ",1f9.3,"     !! W value [cm]")',inputs.origin[2]
-    printf,55,''
-    printf,55,'!! Wavelength Grid Settings'
-    printf,55,f='("nlambda = ",1i5,"    !! Number of Wavelengths")',inputs.nlambda
-    printf,55,f='("lambdamin = ",1f9.3,"    !! Minimum Wavelength [nm]")',inputs.lambdamin
-    printf,55,f='("lambdamax = ",1f9.3,"    !! Maximum Wavelength [nm]")',inputs.lambdamax
-    printf,55,''
-    printf,55,'!! Weight Function Settings'
-    printf,55,f='("ne_wght = ",i9,"    !! Number of Energies for Weights")',inputs.ne_wght
-    printf,55,f='("np_wght = ",i9,"    !! Number of Pitches for Weights")',inputs.np_wght
-    printf,55,f='("nphi_wght = ",i9,"    !! Number of Gyro-angles for Weights")',inputs.nphi_wght
-    printf,55,f='("emax_wght = ",1f9.2,"    !! Maximum Energy for Weights [keV]")',inputs.emax_wght
-    printf,55,f='("nlambda_wght = ",1i5,"    !! Number of Wavelengths for Weights ")',$
-              inputs.nlambda_wght
-    printf,55,f='("lambdamin_wght = ",1f9.3,"    !! Minimum Wavelength for Weights [nm]")',$
-              inputs.lambdamin_wght
-    printf,55,f='("lambdamax_wght = ",1f9.3,"    !! Maximum Wavelength for Weights [nm]")',$
-              inputs.lambdamax_wght
-    printf,55,''
-    printf,55,'/'
-    printf,55,''
-    close,55
-    success,'Namelist file created: '+filename
-END
+    f = open(filename, "w")
 
+    f.write("!! Created: {}".format(datetime.datetime.now()))
+    f.write("!! FIDASIM version: {}".format(fidasim_version))
+    f.write("!! Comment: {}".format(inputs['comment']))
+    f.write("&fidasim_inputs")
+    f.write("")
+
+    f.write("!! Shot Info")
+    f.write("shot = {:d}    !! Shot Number".format(inputs['shot']))
+    f.write("time = {:f}    !! Time [s]".format(inputs['time']))
+    f.write("runid = {}   !! runID".format(inputs['runid']))
+    f.write("result_dir = '{}'    !! Result Directory".format(inputs['result_dir']))
+    f.write("")
+
+    f.write("!! Input Files")
+    f.write("tables_file = '{}'   !! Atomic Tables File".format(inputs['tables_file']))
+    f.write("equilibrium_file = '" + inputs['equilibrium_file'] + "'    !! File containing plasma parameters and fields")
+    f.write("geometry_file = '" + inputs['geometry_file'] + "'    !! File containing NBI and diagnostic geometry")
+    f.write("distribution_file = '" + inputs['distribution_file'] + "'    !! File containing fast-ion distribution")
+    f.write("")
+
+    f.write("!! Simulation Switches")
+    f.write("calc_bes = {:d}    !! Calculate Beam Emission and Halo Spectra".format(inputs['calc_bes']))
+    f.write("calc_brems = {:d}    !! Calculate Bremsstrahlung".format(inputs['calc_brems']))
+    f.write("calc_fida = {:d}    !! Calculate FIDA Spectra".format(inputs['calc_fida']))
+    f.write("calc_npa = {:d}   !! Calculate NPA".format(inputs['calc_npa']))
+    f.write("calc_birth = {:d}    !! Calculate Birth Profile".format(inputs['calc_birth']))
+    f.write("calc_fida_wght = {:d}    !! Calculate FIDA weights".format(inputs['calc_fida_wght']))
+    f.write("calc_npa_wght = {:d}    !! Calculate NPA weights".format(inputs['calc_npa_wght']))
+    f.write("dump_dcx = {:d}    !! Dump DCX neutrals and spectra".format(inputs['dump_dcx']))
+    f.write("")
+
+    f.write("!! Debugging Switches")
+    f.write("no_flr = {:d}    !! Turn off Finite Larmor Radius effects".format(inputs['no_flr']))
+    f.write("load_neutrals = {:d}    !! Load neutrals from neutrals file".format(inputs['load_neutrals']))
+    f.write("neutrals_file = '" + inputs['neutrals_file'] + "'    !! File containing the neutral density")
+    f.write("verbose = {:d}    !! Verbose".format(inputs['verbose']))
+    f.write("")
+
+    f.write("!! Monte Carlo Settings")
+    f.write("n_fida = {:d}    !! Number of FIDA mc particles".format(inputs['n_fida']))
+    f.write("n_npa = {:d}    !! Number of NPA mc particles".format(inputs['n_npa']))
+    f.write("n_nbi = {:d}    !! Number of NBI mc particles".format(inputs['n_nbi']))
+    f.write("n_halo = {:d}    !! Number of HALO mc particles".format(inputs['n_halo']))
+    f.write("n_dcx = {:d}     !! Number of DCX mc particles".format(inputs['n_dcx']))
+    f.write("n_birth = {:d}    !! Number of BIRTH mc particles".format(inputs['n_birth']))
+    f.write("")
+
+    f.write("!! Neutral Beam Settings")
+    f.write("ab = {:f}     !! Beam Species mass [amu]".format(inputs['ab']))
+    f.write("pinj = {:f}     !! Beam Power [MW]".format(inputs['pinj']))
+    f.write("einj = {:f}     !! Beam Energy [keV]".format(inputs['einj']))
+    f.write("current_fractions(1) = {:f} !! Current Fractions (Full component)".format(inputs['current_fractions'][0]))
+    f.write("current_fractions(2) = {:f} !! Current Fractions (Half component)".format(inputs['current_fractions'][1]))
+    f.write("current_fractions(3) = {:f} !! Current Fractions (Third component)".format(inputs['current_fractions'][2]))
+    f.write("")
+
+    f.write("!! Plasma Settings")
+    f.write("ai = {:f}     !! Ion Species mass [amu]".format(inputs['ai']))
+    f.write("impurity_charge = {:d}     !! Impurity Charge".format(inputs['impurity_charge']))
+    f.write("")
+
+    f.write("!! Beam Grid Settings")
+    f.write("nx = {:d}    !! Number of cells in X direction (Into Plasma)".format(inputs['nx']))
+    f.write("ny = {:d}    !! Number of cells in Y direction".format(inputs['ny']))
+    f.write("nz = {:d}    !! Number of cells in Z direction".format(inputs['nz']))
+    f.write("xmin = {:f}     !! Minimum X value [cm]".format(inputs['xmin']))
+    f.write("xmax = {:f}     !! Maximum X value [cm]".format(inputs['xmax']))
+    f.write("ymin = {:f}     !! Minimum Y value [cm]".format(inputs['ymin']))
+    f.write("ymax = {:f}     !! Maximum Y value [cm]".format(inputs['ymax']))
+    f.write("zmin = {:f}     !! Minimum Z value [cm]".format(inputs['zmin']))
+    f.write("zmax = {:f}     !! Maximum Z value [cm]".format(inputs['zmax']))
+    f.write("!! Tait-Bryan Angles for z-y`-x`` rotation")
+    f.write("alpha = {:f}     !! Rotation about z-axis [rad]".format(inputs['alpha']))
+    f.write("beta  = {:f}     !! Rotation about y`-axis [rad]".format(inputs['beta']))
+    f.write("gamma = {:f}     !! Rotation about x``-axis [rad]".format(inputs['gamma']))
+    f.write("!! Beam Grid origin in machine coordinates (cartesian)")
+    f.write("origin(1) = {:f}     !! U value [cm]".format(inputs['origin'][0]))
+    f.write("origin(2) = {:f}     !! V value [cm]".format(inputs['origin'][1]))
+    f.write("origin(3) = {:f}     !! W value [cm]".format(inputs['origin'][2]))
+    f.write("")
+
+    f.write("!! Wavelength Grid Settings")
+    f.write("nlambda = {:d}    !! Number of Wavelengths".format(inputs['nlambda']))
+    f.write("lambdamin = {:f}    !! Minimum Wavelength [nm]".format(inputs['lambdamin']))
+    f.write("lambdamax = {:f}    !! Maximum Wavelength [nm]".format(inputs['lambdamax']))
+    f.write("")
+
+    f.write("!! Weight Function Settings")
+    f.write("ne_wght = {:d}    !! Number of Energies for Weights".format(inputs['ne_wght']))
+    f.write("np_wght = {:d}    !! Number of Pitches for Weights".format(inputs['np_wght']))
+    f.write("nphi_wght = {:d}    !! Number of Gyro-angles for Weights".format(inputs['nphi_wght']))
+    f.write("emax_wght = {:f}    !! Maximum Energy for Weights [keV]".format(inputs['emax_wght']))
+    f.write("nlambda_wght = {:d}    !! Number of Wavelengths for Weights ".format(inputs['nlambda_wght']))
+    f.write("lambdamin_wght = {:f}    !! Minimum Wavelength for Weights [nm]".format(inputs['lambdamin_wght']))
+    f.write("lambdamax_wght = {:f}    !! Maximum Wavelength for Weights [nm]".format(inputs['lambdamax_wght']))
+    f.write("")
+    f.write("/")
+    f.write("")
+
+    f.close()
+
+    success("Namelist file created: {}".format(filename))

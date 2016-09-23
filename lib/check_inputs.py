@@ -8,10 +8,10 @@ import numpy as np
 #import IPython.utils.path.expand_path as expand_path
 import IPython.utils.path
 import os
-from lib.prefida_py import info
-from lib.prefida_py import check_dict_schema
-from lib.prefida_py import error
-from lib.prefida_py import success
+from lib import info
+from lib import check_dict_schema
+from lib import error
+from lib import success
 
 
 def check_inputs(inputs):

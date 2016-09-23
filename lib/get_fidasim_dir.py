@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from lib.prefida_py.source_file import source_file
+from lib.source_file import source_file
 
 
 def get_fidasim_dir():

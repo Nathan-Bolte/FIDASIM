@@ -2,20 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import os
-from lib.prefida_py import check_inputs
-from lib.prefida_py import check_grid
-from lib.prefida_py import check_beam
-from lib.prefida_py import check_plasma
-from lib.prefida_py import check_fields
-from lib.prefida_py import check_distribution
-from lib.prefida_py import check_spec
-from lib.prefida_py import check_npa
-from lib.prefida_py import write_namelist
-from lib.prefida_py import write_geometry
-from lib.prefida_py import write_equilibrium
-from lib.prefida_py import write_distribution
-from lib.prefida_py import get_fidasim_dir
-from lib.prefida_py import success
+from lib import check_inputs
+from lib import check_grid
+from lib import check_beam
+from lib import check_plasma
+from lib import check_fields
+from lib import check_distribution
+from lib import check_spec
+from lib import check_npa
+from lib import write_namelist
+from lib import write_geometry
+from lib import write_equilibrium
+from lib import write_distribution
+from lib import get_fidasim_dir
+from lib import success
 
 
 def prefida(inputs, grid, nbi, plasma, fields, fbm, spec=None, npa=None):

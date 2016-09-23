@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from lib.prefida_py import colored
+from lib import colored
 
 
 def warn(string):

@@ -34,4 +34,4 @@ def source_file(name=None):
 ###############################################################################
 if __name__ == "__main__":
     print source_file()
-    print os.path.dirname(source_file())
+#    print os.path.dirname(source_file())

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from lib.prefida_py import info
-from lib.prefida_py import check_dict_schema
-from lib.prefida_py import uvw_to_xyz
-from lib.prefida_py import error
-from lib.prefida_py import warn
-from lib.prefida_py import success
-from lib.prefida_py import aabb_intersect
+from lib import info
+from lib import check_dict_schema
+from lib import uvw_to_xyz
+from lib import error
+from lib import warn
+from lib import success
+from lib import aabb_intersect
 import numpy as np
 
 
