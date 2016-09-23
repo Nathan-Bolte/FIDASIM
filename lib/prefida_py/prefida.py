@@ -72,10 +72,10 @@ def prefida(inputs, grid, nbi, plasma, fields, fbm, spec=None, npa=None):
     plasma = check_plasma(inputs, grid, plasma)
 
     # CHECK ELECTROMAGNETIC FIELDS
-    check_fields(inputs, grid, fields)
+    fields = check_fields(inputs, grid, fields)
 
     # CHECK FAST-ION DISTRIBUTION
-    check_distribution(inputs, grid, fbm)
+    fbm = check_distribution(inputs, grid, fbm)
 
     # CHECK FIDA/BES
     if spec is not None:

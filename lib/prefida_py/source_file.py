@@ -1,24 +1,24 @@
-from numarray import *
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-def source_file(name):
-#+ Returns the source file of the routine `name`
-#+ If name is not given then it returns the source file of caller routine
-   n_params = 1
-   
-   if n_params == 0:   
-      s = scope_traceback(structure=True)
-      nlevels = array(s, copy=0).nelements()
-      sfile = s[nlevels - 2].filename
-      return file_expand_path(sfile)
-   else:   
-      help(source_files=True, output=csf) #all compiled source files
-      nc = array(csf, copy=0).nelements()
-      for i in arange(2, (nc - 1)+(1)):
-         has_name = stregex(csf[i], name, fold_case=True) != -1
-         if has_name:   
-            sfile = stregex(csf[i], "(/[^/ ]*)+/?$", extract=True, fold_case=True)
-            return file_expand_path(sfile)
-   
-   return ''
-   
 
+def source_file(name=None):
+    """
+    ;+ Returns the source file of the routine `name`
+    ;+ If name is not given then it returns the source file of caller routine
+    """
+    if name is None:
+        s = scope_traceback(/structure)
+        nlevels = n_elements(s)
+        sfile = s[nlevels-2].filename
+        return file_expand_path(sfile)
+    else:
+        help,/source_files,output=csf  # all compiled source files
+        nc = n_elements(csf)
+        for i=2,nc-1:
+            has_name = stregex(csf[i],name,/fold_case) ne -1
+            if has_name:
+                sfile = stregex(csf[i],"(/[^/ ]*)+/?$",/extract,/fold_case)
+                return file_expand_path(sfile)
+
+    return ''
