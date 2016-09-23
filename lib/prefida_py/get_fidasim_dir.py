@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+from lib.prefida_py.source_file import source_file
+
+
 def get_fidasim_dir():
     """
     ;+#get_fidasim_dir
@@ -12,4 +16,12 @@ def get_fidasim_dir():
     ;+IDL> fida_dir = get_fidasim_dir()
     ;+```
     """
-    return file_dirname(file_dirname(source_file()))
+#    return file_dirname(file_dirname(source_file()))
+
+    filepath = source_file()
+    directory = os.path.dirname(os.path.dirname(filepath))
+    return directory
+
+###############################################################################
+if __name__ == "__main__":
+    print get_fidasim_dir()
